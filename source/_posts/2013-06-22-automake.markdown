@@ -1,0 +1,10 @@
+---
+layout: post
+title: "automake 产生步骤"
+date: 2007-06-29 00:00
+comments: true
+categories: [automake]
+---
+
+
+<img src="/images/automake.jpg">

@@ -1,0 +1,16 @@
+---
+layout: post
+title: "Hello jekyll"
+date: 2013-02-10 00:00
+comments: true
+categories: [test]
+---
+
+##test highlight language C
+{% highlight c %}
+int x;
+struct test{
+	char name[32];
+	unsigned long a;
+};
+{% endhighlight %}

@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
+url: http://martinbj2008.github.io
 title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+subtitle: 好读书 不求甚解
+author: Martin Zhang
 simple_search: http://google.com/search
 description:
 
@@ -90,8 +90,8 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
+disqus_short_name: martinbj2008github
+disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id:

@@ -1,0 +1,9 @@
+---
+layout: post
+title: "softirq"
+date: 2013-02-10 00:00
+comments: true
+categories: [kernel, softirq]
+---
+
+
