@@ -4,6 +4,7 @@ title: "How to submit kernel patch by git-mail"
 date: 2013-06-26 00:00
 comments: true
 categories: [git]
+tags: [git]
 ---
 
 ```

@@ -3,7 +3,8 @@ layout: post
 title: "Install html2markdown in Ubuntu(12.10)"
 date: 2013-02-12 00:00
 comments: true
-categories: [markdown, ubuntu, html2markdown, html2text]
+categories: [others]
+tags: [markdown, ubuntu, html2markdown, html2text]
 ---
 
 ###Edit source.list 

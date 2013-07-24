@@ -3,7 +3,8 @@ layout: post
 title: "#在C中用法"
 date: 2007-11-30 00:00
 comments: true
-categories: [c]
+categories: [gcc]
+tags: [gcc]
 ---
 
 ###示例

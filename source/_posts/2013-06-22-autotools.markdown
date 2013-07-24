@@ -3,7 +3,7 @@ layout: post
 title: "Autotools"
 date: 2007-06-22 00:00
 comments: true
-categories: [makefile, automake]
+categories: [make]
 ---
 
 ##步骤简要表述：

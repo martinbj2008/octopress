@@ -3,7 +3,8 @@ layout: post
 title: "subst: replace string in Makefile"
 date: 2007-06-22 00:00
 comments: true
-categories: [makefile, subst]
+categories: [gcc]
+tags: [makefile, subst]
 ---
 
 {% highlight c %}

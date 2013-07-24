@@ -3,7 +3,8 @@ layout: post
 title: "Socket Basic Framework"
 date: 2013-02-16 00:00
 comments: true
-categories: [kernel, socket]
+categories: [socket]
+tags: [kernel, socket]
 ---
 
 

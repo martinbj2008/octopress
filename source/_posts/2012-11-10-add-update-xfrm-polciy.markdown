@@ -3,7 +3,8 @@ layout: post
 title: "Add or Udpate Xfrm Policy"
 date: 2012-11-10 00:00
 comments: true
-categories: [kernel, xfrm]
+categories: [xfrm]
+tags: [kernel, xfrm, SP]
 ---
 
 xfrm policy add/del/update 是通过netlink消息进行的。 其中xfrm_add_policy 用来添加 xfrm policy。

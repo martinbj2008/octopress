@@ -3,7 +3,8 @@ layout: post
 title: "Add a Ip Address on a Interface(todo)"
 date: 2012-08-29 00:00
 comments: true
-categories: [kernel, network]
+categories: [route]
+tags: [kernel, route, network]
 ---
 
 ##summary

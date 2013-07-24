@@ -3,7 +3,8 @@ layout: post
 title: "vimdiff 用法"
 date: 2007-07-30 00:00
 comments: true
-categories: [vimdiff]
+categories: [vim]
+tags: [vimdiff]
 ---
 
 ####启动

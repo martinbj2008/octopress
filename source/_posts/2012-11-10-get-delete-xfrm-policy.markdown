@@ -3,7 +3,8 @@ layout: post
 title: "Get or Delete Xfrm Policy"
 date: 2012-11-10 00:00
 comments: true
-categories: [kernel, xfrm] 
+categories: [xfrm] 
+tags: [xfrm, kernel, policy]
 ---
 
 ##summary

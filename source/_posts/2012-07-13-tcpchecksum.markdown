@@ -3,8 +3,8 @@ layout: post
 title: "Tcp Checksum in Send Direction"
 date: 2012-07-13 00:00
 comments: true
-categories: [kernel, tcp]
-tags: [kernel, checksum, tcp]
+categories: [socket]
+tags: [kernel, checksum, tcp, socket]
 ---
 
 ##summary

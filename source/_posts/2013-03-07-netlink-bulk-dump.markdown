@@ -3,7 +3,7 @@ layout: post
 title: "netlink bulk dump"
 date: 2013-03-07 00:00
 comments: true
-categories: [kernel, netlink]
+categories: [netlink]
 tags: [kernel, netlink]
 ---
 

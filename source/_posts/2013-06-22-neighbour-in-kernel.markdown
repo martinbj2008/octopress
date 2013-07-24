@@ -3,7 +3,8 @@ layout: post
 title: "neighbour 学习笔记（kernel 3.0)"
 date: 2011-09-28 00:00
 comments: true
-categories: [neighbour, kernel]
+categories: [neighbour]
+tags: [neighbour, kernel]
 ---
 {% include JB/setup %}
 

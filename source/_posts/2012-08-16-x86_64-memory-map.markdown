@@ -3,7 +3,8 @@ layout: post
 title: "x86_64 Memory Map When Boot"
 date: 2012-08-16 00:00
 comments: true
-categories: [pfkey, kernel]
+categories: [xfrm]
+tags: [pfkey, xfrm, kernel]
 ---
 
 x86_64 Memory Map When Boot

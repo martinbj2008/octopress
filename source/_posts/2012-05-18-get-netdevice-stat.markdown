@@ -3,7 +3,8 @@ layout: post
 title: "Get netdevice stat"
 date: 2012-05-18 00:00
 comments: true
-categories: [kernel, netdev]
+categories: [netcore]
+tags: [kernel, netdev]
 ---
 
 ##call trace

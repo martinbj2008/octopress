@@ -3,7 +3,7 @@ layout: post
 title: "xfrm dump sa"
 date: 2012-02-10 00:00
 comments: true
-categories: [kernel, xfrm]
+categories: [xfrm]
 tags: [kernel, xfrm, dump sa]
 ---
 

@@ -3,7 +3,8 @@ layout: post
 title: "关闭linux的beep声音"
 date: 2007-08-01 00:00
 comments: true
-categories: [beep, bash]
+categories: [others]
+tags: [beep, bash]
 ---
 
 在Linux/Unix下的命令行下，经常会用到shell的自动补齐，但是同时也带来了烦人的beep声，煞是刺耳。  

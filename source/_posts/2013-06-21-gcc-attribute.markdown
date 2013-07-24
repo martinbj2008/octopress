@@ -4,6 +4,7 @@ title: "gcc attribute"
 date: 2007-06-12 00:00
 comments: true
 categories: [gcc]
+tags: [gcc]
 ---
 
 1. -I 指定头文件搜索路径（I 表include） 

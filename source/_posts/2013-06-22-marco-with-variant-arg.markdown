@@ -3,7 +3,8 @@ layout: post
 title: "gcc参数可变的宏定义"
 date: 2007-06-12 09:06
 comments: true
-categories: [marco, arg, variant]
+categories: [gcc]
+tags: [marco, arg, variant]
 ---
 
 `#define LOGSTRINGS(fm, ...) printf(fm,__VA_ARGS__)`

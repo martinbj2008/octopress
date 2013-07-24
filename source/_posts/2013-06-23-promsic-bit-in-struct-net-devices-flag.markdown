@@ -3,7 +3,8 @@ layout: post
 title: "PROMISC in net\_device->flag"
 date: 2013-06-23 06:01
 comments: true
-categories: [netlink, promisc]
+categories: [netlink]
+tags: [kernel, netlink]
 ---
 summary
 ====

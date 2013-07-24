@@ -3,7 +3,8 @@ layout: post
 title: "xfrm in kernel"
 date: 2009-05-13 00:00
 comments: true
-categories: [xfrm, kernel]
+categories: [xfrm]
+tags: [kenel, xfrm]
 ---
 
 ### global var and structure:

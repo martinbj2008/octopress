@@ -3,7 +3,8 @@ layout: post
 title: "linux kernel IPv6 route"
 date: 2011-04-17 00:00
 comments: true
-categories: [kernel, route, ipv6]
+categories: [route]
+tags: [kernel, route, ipv6]
 ---
 
 IPv6 route tree 原理.

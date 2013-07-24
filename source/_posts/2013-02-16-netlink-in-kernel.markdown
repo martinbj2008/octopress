@@ -3,7 +3,8 @@ layout: post
 title: "Netlink in kernel"
 date: 2013-02-16 00:00
 comments: true
-categories: [kernel, softirq]
+categories: [softirq]
+tags: [kernel, softirq]
 ---
 
 

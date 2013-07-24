@@ -3,7 +3,8 @@ layout: post
 title: "the mem_init on mips(octean)"
 date: 2011-10-07 00:00
 comments: true
-categories: [mem, bootmem, kernel, octean]
+categories: [memory]
+tags: [mem, bootmem, kernel, octean]
 ---
 
 

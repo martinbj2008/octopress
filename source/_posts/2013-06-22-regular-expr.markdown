@@ -3,7 +3,8 @@ layout: post
 title: "正则表达式之道"
 date: 2007-10-10 00:00
 comments: true
-categories: []
+categories: [others]
+tags: [reg]
 ---
 
 原著：Steve Mansour

@@ -4,6 +4,7 @@ title: "vim 特定字符后中插入回车换行"
 date: 2007-09-14 00:00
 comments: true
 categories: [vim]
+tags: [vim]
 ---
 
 原文件  

@@ -3,7 +3,8 @@ layout: post
 title: "嵌入Linux下的usb storage的支持"
 date: 2007-12-11 00:00
 comments: true
-categories: [usb, kernel]
+categories: [others]
+tags: [usb, kernel]
 ---
 
 目标： 在mipsel架构的嵌入式linux系统上支持USB盘的读写。

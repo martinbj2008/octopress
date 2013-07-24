@@ -3,7 +3,8 @@ layout: post
 title: "windows in vim "
 date: 2007-06-26 00:00
 comments: true
-categories: [vim]
+categories: [others]
+tags: [vim]
 ---
 
 vim中的窗口分割

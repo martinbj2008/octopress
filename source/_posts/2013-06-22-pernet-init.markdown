@@ -3,7 +3,8 @@ layout: post
 title: "register_pernet_subsys 笔记"
 date: 2011-02-25 00:00
 comments: true
-categories: [kernel, pernet]
+categories: [netcore]
+tags: [kernel, pernet]
 ---
 
 ### pernet ops

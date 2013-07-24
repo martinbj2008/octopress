@@ -3,7 +3,8 @@ layout: post
 title: "pf_key modele summary"
 date: 2010-06-02 00:00
 comments: true
-categories: [pfkey, kernel]
+categories: [xfrm]
+tags: [kernel, xfrm]
 ---
 
 ###af_key.c

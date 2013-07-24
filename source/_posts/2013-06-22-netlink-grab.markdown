@@ -3,7 +3,8 @@ layout: post
 title: "netlink grab"
 date: 2013-03-11 00:00
 comments: true
-categories: [kernel, netlink]
+categories: [netlink]
+tags: [kernel, netlink]
 ---
 
 对`nl_table`的操作：    

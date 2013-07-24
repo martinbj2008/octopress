@@ -3,7 +3,7 @@ layout: post
 title: "mmap in kernel"
 date: 2013-01-23 00:00
 comments: true
-categories: [kernel, memory]
+categories: [memory]
 tags: [kernel, memory, mmap]
 ---
 

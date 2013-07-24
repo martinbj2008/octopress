@@ -3,7 +3,8 @@ layout: post
 title: "Netlink in kernel(continue)"
 date: 2013-03-15 00:00
 comments: true
-categories: [kernel, netlink]
+categories: [netlink]
+tags: [kernel, netlink]
 ---
 
 Netlink in Kernel
