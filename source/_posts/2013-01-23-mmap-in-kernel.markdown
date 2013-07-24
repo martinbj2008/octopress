@@ -18,6 +18,7 @@ tags: [kernel, memory, mmap]
 > > > > > vmalloc_area_node
 > > > > > insert_vmalloc_vmlist
 ```
+<!-- more -->
 
 ```c
 1731 void *vmalloc(unsigned long size)

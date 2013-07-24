@@ -13,6 +13,8 @@ categories: [make]
 4. 执行新生成的脚本 configure
 5. 执行make文件。
 
+<!-- more -->
+
 ###步骤1：创建一个configure.ac
 内容如下：
 {% highlight c %}

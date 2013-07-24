@@ -15,6 +15,8 @@ tags: [vimdiff]
 然后在vim的ex模式（也就是"冒号"模式）下输入：
 `:vertical diffsplit FILE_RIGHT`
 
+<!-- more -->
+
 ####交换窗口位置
 1. Ctrl-w K（把当前窗口移到最上边）
 2. Ctrl-w H（把当前窗口移到最左边）

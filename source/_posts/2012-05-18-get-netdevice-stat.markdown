@@ -19,6 +19,7 @@ but most count the stat by software in `dev->stat`
  > > > > ops->ndo_get_stats64
  > > > > > ixgbe_get_stats64,
 ```
+<!-- more -->
 
 ```c
 356 #define NETSTAT_ENTRY(name)                                             \

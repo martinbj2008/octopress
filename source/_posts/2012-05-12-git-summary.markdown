@@ -7,6 +7,7 @@ categories: [git]
 tags: [git]
 ---
 
+<!-- more -->
 ##create repo
 
 ```

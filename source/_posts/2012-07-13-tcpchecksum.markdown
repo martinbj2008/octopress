@@ -16,6 +16,7 @@ tags: [kernel, checksum, tcp, socket]
 
 when nic driver sends the packet, it will fill these information to hardware’s correspond register.
 
+<!-- more -->
 ##call trace
 
 ```c

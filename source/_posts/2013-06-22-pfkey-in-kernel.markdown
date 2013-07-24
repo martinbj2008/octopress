@@ -22,7 +22,7 @@ pfkey_create,pfkey_sendmsg,pfkey_recvmsg,
 pfkey_release,datagram_poll, 
 
 
-{% highlight c %}
+```c
 static const struct proto_ops pfkey_ops = { 
 .family        =    PF_KEY, 
 .owner        =    THIS_MODULE, 
@@ -73,12 +73,12 @@ struct xfrm_state_walk    state;
 struct sk_buff    *skb; 
 } dump; 
 }; 
-{% endhighlight %}
+```
 
 
 ###part 2. pf_key kernel message 
 
-{% highlight c %}
+```c
 static struct xfrm_mgr pfkeyv2_mgr =
 { 
 .id        = "pfkeyv2", 
@@ -89,7 +89,7 @@ static struct xfrm_mgr pfkeyv2_mgr =
 .notify_policy    = pfkey_send_policy_notify, 
 .migrate    = pfkey_send_migrate, 
 };
-{% endhighlight %}
+```
 
 ### pf_key message process.
 
@@ -103,7 +103,7 @@ extention header is sadb_ext.
 extention value is different according the extention header.
 Such as sadb_sa,sadb_x_policy and so on.
 
-{% highlight c %}
+```c
 struct sadb_msg { 
 uint8_t        sadb_msg_version; 
 uint8_t        sadb_msg_type; 
@@ -145,7 +145,7 @@ uint32_t    sadb_x_policy_id;
 uint32_t    sadb_x_policy_priority; 
 } __attribute__((packed)); 
 /* sizeof(struct sadb_x_policy) == 16 */
-{% endhighlight %}
+```
 
 The application program(such as setkey) sent a command to kernel by sendmsg system API.
 Thus in kernel pf_key will call pfkey_sendmsg.
@@ -165,7 +165,7 @@ and then call the pfkey_handler according the sadb_msg_type in the pf_key messag
 
 `typedef int (*pfkey_handler)(struct sock *sk, struct sk_buff *skb, struct sadb_msg *hdr, void **ext_hdrs); `
 
-{% highlight c %}
+```c
 typedef int (*pfkey_handler)(struct sock *sk, struct sk_buff *skb, struct sadb_msg *hdr, void **ext_hdrs); 
 static pfkey_handler pfkey_funcs[SADB_MAX + 1] = { 
 [SADB_RESERVED]        = pfkey_reserved, 
@@ -192,7 +192,7 @@ static pfkey_handler pfkey_funcs[SADB_MAX + 1] = {
 [SADB_X_SPDDELETE2]    = pfkey_spdget, 
 [SADB_X_MIGRATE]    = pfkey_migrate, 
 };
-{% endhighlight %}
+```
 
 The policy related function was done in xfrm_policy.c and xfrm_state.c
 3.1  policy add handler: pfkey_spdadd

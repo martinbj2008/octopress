@@ -18,6 +18,9 @@ tags: [usb, kernel]
 4. fat.ko               源代码目录下的 fs/fat目录下的文件编译
 5. vfat.ko    源代码目录下的 fs/vfat目录下的文件编译
 上述五个可加载模块的编译过程可以具体参考各自目录下的Makefile。
+
+<!-- more -->
+
 ####我在编译过程中所犯的错误和经验：
     a. 没有真正明白     obj-m :=fat.o 和 fat-objs := 的关系， 直接将源文件`*.o`增加到了obj-m 的后面，造成没有编译成功。
     b. 在编译fat.ko的时候，inode。c文件里面的有个变量定义使用的配置文件（config）里面缺省值。

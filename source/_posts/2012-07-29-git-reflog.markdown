@@ -4,9 +4,10 @@ title: "通过git reflog 找回的commit"
 date: 2012-07-29 00:00
 comments: true
 categories: [git]
-tags: [git, reflog]
+tegs: [git, reflog]
 ---
 
+<!-- more -->
 ## Prepare
 ```
 [martin@fc17 git_study]$ git log --oneline 

@@ -12,6 +12,8 @@ tags: [kernel, socket]
 
 socket is a widely used in kernel/net. There are many kind of sockets with different ‘family/proto’. They can be divided by family, and under each family, there are many kinds of proto. such as inet(ipv4)/stream, netlink/(xfrm, rt).
 
+<!-- more -->
+
 ##Data struct && method
 
 ###net_proto_family

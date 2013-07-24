@@ -16,6 +16,7 @@ When a ip addr is added, two unicat route entries are added to route table.
   It is used to forward the packet to the hosts in the same sub network, it will disappear when interface down
 3. two broad cast routes entry also added.
 
+<!-- more -->
 ##broadcast route:
 
 ```

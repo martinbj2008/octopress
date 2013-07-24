@@ -8,6 +8,7 @@ tags: [pfkey, xfrm, kernel]
 ---
 
 x86_64 Memory Map When Boot
+<!-- more -->
 
 ```
 Linux version 3.6.0-rc1+ (martin@fc17) (gcc version 4.7.0 20120507 (Red Hat 4.7.0-5) (GCC) ) #9 SMP Sun Aug 12 09:42:26 CST 2012

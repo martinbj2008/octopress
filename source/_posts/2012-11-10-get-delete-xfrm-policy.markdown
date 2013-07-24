@@ -11,9 +11,10 @@ tags: [xfrm, kernel, policy]
 xfrm_get_policy first locate the xfrm policy by policy index(from user space) or policy selector.
 
 1. if get_policy, alloc a new skb, and encapsulate the xfrm policy to it, then sent  it. 
-3. if delete policy, call `xfrm_audit_policy_delete` to delete the plolicy, and call km_policy_notify to notify.
+2. if delete policy, call `xfrm_audit_policy_delete` to delete the plolicy, and call km_policy_notify to notify.
 
 xfrm policy del/get 使用的是同一个函数 `xfrm_get_policy`.
+<!-- more -->
 
 ```c 
 2291         [XFRM_MSG_DELPOLICY - XFRM_MSG_BASE] = { .doit = xfrm_get_policy    },

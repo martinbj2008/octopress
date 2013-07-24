@@ -7,9 +7,6 @@ categories: [netlink]
 tags: [kernel, netlink]
 ---
 
-Netlink Callback for Netlink Bulk Message
-MAR 7TH, 2013 | COMMENTS
-
 ```c
  93 struct netlink_callback {
  94         struct sk_buff          *skb;

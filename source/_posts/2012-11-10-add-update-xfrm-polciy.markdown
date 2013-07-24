@@ -9,6 +9,7 @@ tags: [kernel, xfrm, SP]
 
 xfrm policy add/del/update 是通过netlink消息进行的。 其中xfrm_add_policy 用来添加 xfrm policy。
 
+<!-- more -->
 ##netlink message type
 ```
 163         XFRM_MSG_NEWPOLICY,

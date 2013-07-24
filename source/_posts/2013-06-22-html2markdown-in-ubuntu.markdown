@@ -7,6 +7,8 @@ categories: [others]
 tags: [markdown, ubuntu, html2markdown, html2text]
 ---
 
+<!-- more -->
+
 ###Edit source.list 
 ensure the universe components is enabled.
 {% highlight bash %}

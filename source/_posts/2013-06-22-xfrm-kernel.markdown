@@ -12,7 +12,9 @@ tags: [kenel, xfrm]
 `static struct xfrm_policy_afinfo *xfrm_policy_afinfo[NPROTO];`     
 xfrm_policy_afinfo 定义一个大的数组，每一个元素对应一个地址族，如ipv4（AF_INET），ipv6(AF_INET6).
 
-{% highlight c %}
+<!-- more -->
+
+```c
 struct xfrm_policy_afinfo { 
     unsigned short        family; 
     rwlock_t        lock; 
@@ -30,23 +32,23 @@ struct xfrm_policy_afinfo {
     void            (*decode_session)(struct sk_buff *skb, 
                         struct flowi *fl); 
 }; 
-{% endhighlight %}
+```
 
 在struct xfrm_policy_afinfo中有一个元素
-{% highlight c %}
+```c
     struct xfrm_type_map    *type_map;
 struct xfrm_type_map { 
     rwlock_t        lock; 
     struct xfrm_type    *map[256]; 
 };
-{% endhighlight %}
+```
 
 map 也是一个指针数组，其每个元素对应一个应用层的协议如 ESP(IPPROTO_ESP), AH, UDP(IPPROTO_UDP),TCP等。
 
 两个相关的注册函数：
 
 关于xfrm_policy_afinfo
-{% highlight c %}
+```c
 int xfrm_policy_register_afinfo(struct xfrm_policy_afinfo *afinfo)；
 
 static void __init xfrm4_policy_init(void) 
@@ -60,7 +62,7 @@ static void __init xfrm6_policy_init(void)
 } 
 {% endhighlight  %}
 
-{% highlight c %}
+```c
 int xfrm_policy_register_afinfo(struct xfrm_policy_afinfo *afinfo) 
 { 
     int err = 0; 
@@ -88,10 +90,10 @@ int xfrm_policy_register_afinfo(struct xfrm_policy_afinfo *afinfo)
     write_unlock(&xfrm_policy_afinfo_lock); 
     return err; 
 } 
-{% endhighlight %}
+```
 
 
-{% highlight c %}
+```c
 int xfrm_register_type(struct xfrm_type *type, unsigned short family) 
 { 
     struct xfrm_policy_afinfo *afinfo = xfrm_policy_get_afinfo(family); 
@@ -111,5 +113,5 @@ int xfrm_register_type(struct xfrm_type *type, unsigned short family)
     xfrm_policy_put_afinfo(afinfo); 
     return err; 
 }
-{% endhighlight %}
+```
 

@@ -13,6 +13,7 @@ tags: [kernel, xfrm, dump sa]
 2. 通过sendmsg发送一个dump sa 的请求 
 3. 然后通过while循环调用recvmsg
 
+<!-- more -->
 ##kernel里对应的处理：
 
 内核遍历存放SA的list。将SA的信息转化到一个或多个skb, 将这些skb添加到相应pfkey socket的sk_receive_queue链表里。

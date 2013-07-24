@@ -7,9 +7,6 @@ categories: [netlink]
 tags: [kernel, netlink]
 ---
 
-Netlink in Kernel
-MAR 5TH, 2013 | COMMENTS
-
 ##netlink介绍
   netlink是一种用于内核和用户空间进行数据交互的socket。 关于netlink的具体介绍，google给出更好的解释。
   netlink是socket的一种，其的family号是PF_NETLINK, netlink包括很多种proto，并且用户可以根据自己的需要进行扩展。
@@ -21,6 +18,8 @@ Every netlink socket is indicated by (net, proto, pid).
   1. net: the net namespace. 
   2. proto: netlink proto. 
   3. pid:
+
+<!-- more -->
 
 netlink的消息可以分为两种类型： 单播(unicast)和组播(broadcast). 
 

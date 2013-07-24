@@ -10,8 +10,10 @@ tags: [git]
 ```
 git send-email --annotate  --subject-prefix="PATCH v2 net-next" \
   --in-reply-to=The_previous_email_message_id_to_be_replied \
-  --smtp-debug --to MAINTENACE_person_email --cc CCLIST HEAD^^
+  -esmtp-debug --to MAINTENACE_person_email --cc CCLIST HEAD^^
 ```
+
+<!-- more -->
 
 1. `—annotate`: 临时增加一些注释到邮件里。添加方法跟git commit --amend 类似。 只是这些注释要添加在---的后面。例如，
 2. Cc: .....

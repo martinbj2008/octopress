@@ -9,6 +9,7 @@ tags: [glibc, gcc, toolchain]
 
 原文地址：LFS中Binutils,GCC,Glibc三者之间的关系
 [http://blog.chinaunix.net/uid-20431728-id-2752867.html]
+<!-- more -->
 
 1. binutils有一个很重要的目的是为了生成LD，标准连接器。以及as汇编器，还有readelf等等。
 2. gcc，生成gcc编译器

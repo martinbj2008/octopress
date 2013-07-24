@@ -14,7 +14,7 @@ tags: [kernel, softirq]
 ## 软中断特点
 
   软中断特点是可以同时运行在CPU上，而tasklet则是整个系统中只有一个。 软中断和tasklet都不允许睡眠，因此必须避免执行引发睡眠的操作。 workqueue则允许睡眠。
-
+<!-- more -->
 ## 软中断原理
 
 ### 原理

@@ -8,7 +8,7 @@ tags: [kernel, pernet]
 ---
 
 ### pernet ops
-{% highlight c %}
+```c
 /**
  *      register_pernet_subsys - register a network namespace subsystem
  *    @ops:  pernet operations structure for the subsystem
@@ -28,10 +28,10 @@ tags: [kernel, pernet]
  *    are called in the reverse of the order with which they were
  *    registered.
  */
-{% endhighlight %}
+```
 
 
-{% highlight c %}
+```c
 int register_pernet_subsys(struct pernet_operations *ops)
 {
     int error;
@@ -101,13 +101,13 @@ static int __register_pernet_operations(struct list_head *list,
         return ops->init(net);<====== the ops->init will be called.
     return 0;
 }
-{% endhighlight %}
+```
  
  
 ####Fox example
 inet6_init in pernet.
 
-{% highlight c %}
+```c
 static struct pernet_operations inet6_net_ops = { 
     .init = inet6_net_init, 
     .exit = inet6_net_exit, 
@@ -124,4 +124,4 @@ call:     ops->init(net);<====== the ops->init will be called.
 equal with =======   .init = inet6_net_init,
                      inet6_net_init(net);
 
-{% endhighlight %}
+```

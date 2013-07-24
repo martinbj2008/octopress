@@ -6,7 +6,8 @@ comments: true
 categories: [neighbour]
 tags: [neighbour, kernel]
 ---
-{% include JB/setup %}
+
+<!-- more -->
 
 1. For ethernet, dev->header_ops is eth_header_ops
 {% highlight c %}

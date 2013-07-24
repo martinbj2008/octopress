@@ -6,12 +6,11 @@ comments: true
 categories: [memory]
 tags: [mem, bootmem, kernel, octean]
 ---
+<!-- more -->
 
-
-
-{% highlight c %} 
 arch/mips/kernel/setup.c
 ====================================
+```c
 static void __init bootmem_init(void)
 {
 unsigned long reserved_end;
@@ -318,4 +317,4 @@ arch_mem_init(cmdline_p);<=====
 resource_init();
 plat_smp_setup();
 }
-{% endhighlight %}
+```

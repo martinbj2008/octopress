@@ -7,6 +7,8 @@ categories: [gcc]
 tags: [gcc]
 ---
 
+<!-- more -->
+
 1. -I 指定头文件搜索路径（I 表include） 
 如 $gcc -c hello.c -o hello.o -I/usr/include 
 2.-L 指定要连接的库所在的目录 
