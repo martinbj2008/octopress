@@ -3,7 +3,8 @@ layout: post
 title: "draft: isolcpus"
 date: 2013-07-10 00:00
 comments: true
-categories: [kernel, schedule]
+categories: [sched]
+tags: [kernel, sched]
 ---
 
 Isolcpus

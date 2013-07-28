@@ -3,7 +3,8 @@ layout: post
 title: "How Kernel Thread Is Created"
 date: 2013-06-27 00:00
 comments: true
-categories: [kernel, kthread]
+categories: [sched]
+tags: [kernel, schedule, kthread]
 ---
 
 JUN 27TH, 2013 | COMMENTS
