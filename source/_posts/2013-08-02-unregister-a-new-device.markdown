@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "unregister a new device"
+title: "unregister a net device"
 date: 2013-08-02 14:08
 comments: true
 categories: [net]
