@@ -40,10 +40,12 @@ net device notify.
 
 9. dev_put (here only decrease reference);
 
-in the finally, do rtnl_unlock, which do more than unlock rtnl
+in the finally, do rtnl_unlock, which do more than unlock rtnl.
+
 it will check all the devices in the net_todo_list and wait them to be freed.
 to enhace efficience, net_todo_list will be copied(moved) to a temp list,
 and empty net_todo_list. thus rtnl lock is freed.
+
 then for each netdevice in the temp list, wait them to be free(un-reference),
 and then free them(deconstruct).
 for safe, we Rebroadcast unregister notification every 250ms(try within 10s), during wait dev reference.
