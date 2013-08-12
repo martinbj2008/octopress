@@ -7,24 +7,24 @@ categories: [net]
 tags: [kernel, net, netdev]
 ---
 
-When we want to delete a net device, `unregister_netdev` is called. In fact, it equals:
+`unregister_netdev` is used to delete a net device. In fact, it equals:
 ```c
 	rtnl_lock();
 	rollback_registered_many( a list with a single net device);
 	list_add_tail(&dev->todo_list, &net_todo_list);
 	rtnl_unlock();
 ```
-a temporary list with a single net device is used to store the device to be deleted.
-`net_todo_list` is used to store all the netdeive is **being** deleted.
+a temporary list stores a single net device, which is to be deleted.
+`net_todo_list` stores all the net devices are **being** deleted.
 
-The core function is `rollback_registered_many`, which is used to efficiently delete many device in a list.
+The core function is `rollback_registered_many`, which efficiently deletes many devices in a list.
 But here, in this case, one a single netdevice in the list.
 
-1. it firstly check the status and confirm the netdivice is registered(NETREG_REGISTERED),
+1. firstly check the status and confirm the net device is registered(NETREG_REGISTERED),
 or it will do nothing for the net device.
 
-2. fistly dev will be closed by `dev_close_many`, and notify(broadcast) with 'NETDEV_DOWN' message by rtmsg and 
-netdevice callback notify.
+2. for each net device, close it by `dev_close_many`, and notify(broadcast) 'NETDEV_DOWN' message by rtmsg and 
+net device notify.
 
 3. remove netdevice from kernel net device list (by name, ifindex, ..).
 
@@ -48,8 +48,7 @@ then for each netdevice in the temp list, wait them to be free(un-reference),
 and then free them(deconstruct).
 for safe, we Rebroadcast unregister notification every 250ms(try within 10s), during wait dev reference.
 
-
-calltrace
+##calltrace
 ```c
 > unregister_netdev
 > > rtnl_lock();
