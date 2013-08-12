@@ -10,7 +10,7 @@ tags: [kernel, net, netdev]
 `unregister_netdev` is used to delete a net device. In fact, it equals:
 ```c
 	rtnl_lock();
-	rollback_registered_many( a list with a single net device);
+	rollback_registered_many( a temp list with a single net device);
 	list_add_tail(&dev->todo_list, &net_todo_list);
 	rtnl_unlock();
 ```
