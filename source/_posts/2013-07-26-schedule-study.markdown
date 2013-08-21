@@ -16,6 +16,7 @@ different  sub-runqueue `*_rq` of rq?
 426         struct cfs_rq cfs;
 427         struct rt_rq rt;
 ```
+<!-- more -->
 
 ```c
  393 /*

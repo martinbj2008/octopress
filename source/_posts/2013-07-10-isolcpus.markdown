@@ -15,6 +15,8 @@ when boot kernel with isolcpus in grub command lines, only init thread has expec
 
 while the kthreads affinity still includes isolated cpus.
 
+<!-- more -->
+
 ### Test snapshot
 Test with x86_64 and boot parameter: `isolcpus=2,3 `
 

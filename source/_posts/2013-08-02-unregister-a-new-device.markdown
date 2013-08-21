@@ -3,7 +3,7 @@ layout: post
 title: "unregister a net device"
 date: 2013-08-02 14:08
 comments: true
-categories: [net]
+categories: [netcore]
 tags: [kernel, net, netdev]
 ---
 
@@ -19,6 +19,8 @@ a temporary list stores a single net device, which is to be deleted.
 
 The core function is `rollback_registered_many`, which efficiently deletes many devices in a list.
 But here, in this case, one a single netdevice in the list.
+
+<!-- more -->
 
 1. firstly check the status and confirm the net device is registered(NETREG_REGISTERED),
 or it will do nothing for the net device.

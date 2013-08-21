@@ -22,6 +22,8 @@ When we need schedule, the four `pick_next_task` will be called one by one.
 As a optimization, most time there is no rt task in running state,
 in this case we can directly call `fair_sched_class`.
 
+<!-- more -->
+
 ```c
 2322         /*
 2323          * Optimization: we know that if all tasks are in

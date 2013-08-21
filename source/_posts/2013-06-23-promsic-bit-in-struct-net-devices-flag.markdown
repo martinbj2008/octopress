@@ -38,6 +38,8 @@ When tcpdump starts, it let dev to promisc,
 and just before exit, tcpdump let dev left promisc.
 All these is done by call kernel api dev_set_promiscuity.
 
+<!-- more -->
+
 Data struct and function
 ------------------------------
 summary

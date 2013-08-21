@@ -12,6 +12,8 @@ tags: [kernel, sched]
 There is a `struct rt_rq` in `struct rq`. `struct rt_rq` is used to store all
 the realtime task in current `struct rq`. which has a `struct rt_prio_array active`.
 
+<!-- more -->
+
 ```c
 struct rq {
 	...

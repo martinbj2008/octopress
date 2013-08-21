@@ -19,6 +19,8 @@ example: file drivers/char/apm-emulation.c
 ```
 651 kapmd_tsk = kthread_create(kapmd, NULL, "kapmd");
 ```
+<!-- more -->
+
 ## Principle
 
 When kernel bootup, two important threads are created. INIT thread(PID1) and kthreadd(PID2).
