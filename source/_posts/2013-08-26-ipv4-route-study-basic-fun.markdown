@@ -10,6 +10,8 @@ tags: [IPv4, route,lc-trie]
 In order to understand kernel route LC-Trie,
 summary the basic functions here.
 
+<!-- more -->
+
 ## NODE vs LEAF
 `node` and `leaf` have two same head elements
 
