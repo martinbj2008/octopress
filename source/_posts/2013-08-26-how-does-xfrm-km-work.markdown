@@ -298,6 +298,7 @@ equal:
 ```
 
 #### pernet `net->xfrm.nlsk`
+```c
 3000 static int __net_init xfrm_user_net_init(struct net *net)
 3001 {
 3002         struct sock *nlsk;
@@ -313,12 +314,12 @@ equal:
 3012         rcu_assign_pointer(net->xfrm.nlsk, nlsk);
 3013         return 0;
 3014 }
-3015 
-
+```
 ### note
 
 1. what is `net->xfrm.km_waitq` and where it is used.
-This is used to wait SA negotiation complete,
+
+It is used to wait SA negotiation complete,
 which is not related with  km.
 
 ```c
