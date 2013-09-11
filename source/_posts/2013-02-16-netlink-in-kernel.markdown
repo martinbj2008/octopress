@@ -3,10 +3,9 @@ layout: post
 title: "Netlink in kernel"
 date: 2013-02-16 00:00
 comments: true
-categories: [softirq]
-tags: [kernel, softirq]
+categories: [netlink]
+tags: [kernel, netlink]
 ---
-
 
 #netlink socket framework.
 
@@ -17,7 +16,7 @@ Every netlink socket is indicated by `<net, proto, pid>`.
 
   1. net: the net namespace.
   2. proto: netlink proto.
-  3. pid: 
+  3. pid:
 
 <!-- more -->
 
