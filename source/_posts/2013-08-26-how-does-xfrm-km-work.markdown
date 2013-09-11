@@ -4,8 +4,32 @@ title: "How does xfrm km work"
 date: 2013-08-26 15:19
 comments: true
 categories: [xfrm]
-tagss: [xfrm, km] 
+tags: [xfrm, km]
 ---
+
+### summary
+
+There is a list `xfrm_km_list` in kernel.
+Each node of the list is `struct xfrm_mgr`,
+which has several methods to notify usersapce by netlink message.
+Different methods has corresponding method,
+and it broadcast the netlink message with different xfrm groups.
+
+
+`struct xfrm_mgr` has many methods, for example:
+	1. notify:  notify the sa change, ex: add, delete, expire ..
+	2. acquire: notify when sp is match, while no SA is got.
+	3. compile_policy:
+	4. new_mapping:
+	5: notify_policy: notify sp change. add, delete, expire.
+	6. report:
+	7. mirgrate:
+
+#### `struct xfrm_mgr` and `xfrm_km_list`
+
+```c
+1630 static LIST_HEAD(xfrm_km_list);
+```
 
 ```c
  579 struct xfrm_mgr {
@@ -24,10 +48,12 @@ tagss: [xfrm, km]
  592                                            const struct xfrm_kmaddress *k);
  593 };
 ```
+#### `xfrm_register_km` vs `xfrm_unregister_km`
 
-```c
-1630 static LIST_HEAD(xfrm_km_list);
-```
+NOTE:  here we should use spin_lock_bh,
+because the km_notify method maybe used in irq bottom half.
+for example: the first packet which trigger the dynamic sa
+negotiation.
 
 ```c
 1807 int xfrm_register_km(struct xfrm_mgr *km)
@@ -49,6 +75,30 @@ tagss: [xfrm, km]
 1822         return 0;
 1823 }
 ```
+
+####  register with `netlink_mgr`
+```c
+3031 static int __init xfrm_user_init(void)
+3032 { 
+...
+3040         rv = xfrm_register_km(&netlink_mgr);     
+...
+3044 } 
+```
+```c
+2989 static struct xfrm_mgr netlink_mgr = {
+2990         .id             = "netlink",
+2991         .notify         = xfrm_send_state_notify,
+2992         .acquire        = xfrm_send_acquire,
+2993         .compile_policy = xfrm_compile_policy,
+2994         .notify_policy  = xfrm_send_policy_notify,
+2995         .report         = xfrm_send_report,
+2996         .migrate        = xfrm_send_migrate,
+2997         .new_mapping    = xfrm_send_mapping,
+2998 };
+```
+
+####  `km_state_expired` 
 
 ```c
 1643 void km_state_notify(struct xfrm_state *x, const struct km_event *c)
@@ -80,6 +130,7 @@ tagss: [xfrm, km]
 1670 EXPORT_SYMBOL(km_state_expired);
 ```
 
+#### `km_policy_expired`
 ```c
 1632 void km_policy_notify(struct xfrm_policy *xp, int dir, const struct km_event *c)
 1633 {
@@ -93,18 +144,6 @@ tagss: [xfrm, km]
 1641 }
 ```
 
-```c
-1632 void km_policy_notify(struct xfrm_policy *xp, int dir, const struct km_event *c)
-1633 {
-1634         struct xfrm_mgr *km;
-1635 
-1636         rcu_read_lock();
-1637         list_for_each_entry_rcu(km, &xfrm_km_list, list)
-1638                 if (km->notify_policy)
-1639                         km->notify_policy(xp, dir, c);
-1640         rcu_read_unlock();
-1641 }
-```
 ```c
 1708 void km_policy_expired(struct xfrm_policy *pol, int dir, int hard, u32 portid)
 1709 {
@@ -121,29 +160,6 @@ tagss: [xfrm, km]
 1720 }
 1721 EXPORT_SYMBOL(km_policy_expired);
 ```
-
-```c
-3031 static int __init xfrm_user_init(void)
-3032 { 
-...
-3040         rv = xfrm_register_km(&netlink_mgr);     
-...
-3044 } 
-```
-```c
-2989 static struct xfrm_mgr netlink_mgr = {
-2990         .id             = "netlink",
-2991         .notify         = xfrm_send_state_notify,
-2992         .acquire        = xfrm_send_acquire,
-2993         .compile_policy = xfrm_compile_policy,
-2994         .notify_policy  = xfrm_send_policy_notify,
-2995         .report         = xfrm_send_report,
-2996         .migrate        = xfrm_send_migrate,
-2997         .new_mapping    = xfrm_send_mapping,
-2998 };
-```
-
-
 
 ```c
 2577 static int xfrm_send_state_notify(struct xfrm_state *x, const struct km_event *c)
@@ -190,6 +206,157 @@ tagss: [xfrm, km]
 2443 }  
 ```
 
-### todo
 
-1. what is net->xfrm.km_waitq and where it is used.
+#### how to notify strongswan negotiate a new sa.
+```c
+> xfrm_stat_find
+> >  km_query
+> > >  km->acquire  
+equal:
+> > >  xfrm_send_acquire
+```
+
+```c
+1671 /*
+1672  * We send to all registered managers regardless of failure
+1673  * We are happy with one success
+1674 */
+1675 int km_query(struct xfrm_state *x, struct xfrm_tmpl *t, struct xfrm_policy *pol)
+1676 { 
+1677         int err = -EINVAL, acqret;
+1678         struct xfrm_mgr *km;
+1679   
+1680         rcu_read_lock();
+1681         list_for_each_entry_rcu(km, &xfrm_km_list, list) {
+1682                 acqret = km->acquire(x, t, pol);         
+1683                 if (!acqret)
+1684                         err = acqret;
+1685         }
+1686         rcu_read_unlock();
+1687         return err;
+1688 } 
+1689 EXPORT_SYMBOL(km_query);
+```
+
+```c
+ 788 struct xfrm_state *
+ 789 xfrm_state_find(const xfrm_address_t *daddr, const xfrm_address_t *saddr,
+ 790                 const struct flowi *fl, struct xfrm_tmpl *tmpl,
+ 791                 struct xfrm_policy *pol, int *err,
+ 792                 unsigned short family)
+ 793 {
+...
+ 838         x = best;
+ 839         if (!x && !error && !acquire_in_progress) {
+ 840                 if (tmpl->id.spi &&
+ 841                     (x0 = __xfrm_state_lookup(net, mark, daddr, tmpl->id.spi,
+ 842                                               tmpl->id.proto, encap_family)) != NULL) {
+ 843                         to_put = x0;
+ 844                         error = -EEXIST;
+ 845                         goto out;
+ 846                 }
+ 847                 x = xfrm_state_alloc(net);
+ 848                 if (x == NULL) {
+ 849                         error = -ENOMEM;
+ 850                         goto out;
+ 851                 }
+ 852                 /* Initialize temporary state matching only
+ 853                  * to current session. */
+ 854                 xfrm_init_tempstate(x, fl, tmpl, daddr, saddr, family);
+ 855                 memcpy(&x->mark, &pol->mark, sizeof(x->mark));
+ 856 
+ 857                 error = security_xfrm_state_alloc_acquire(x, pol->security, fl->flowi_secid);
+ 858                 if (error) {
+ 859                         x->km.state = XFRM_STATE_DEAD;
+ 860                         to_put = x;
+ 861                         x = NULL;
+ 862                         goto out;
+ 863                 }
+ 864 
+ 865                 if (km_query(x, tmpl, pol) == 0) {
+ 866                         x->km.state = XFRM_STATE_ACQ;
+ 867                         list_add(&x->km.all, &net->xfrm.state_all);
+ 868                         hlist_add_head(&x->bydst, net->xfrm.state_bydst+h);
+```
+
+```c
+2648 static int xfrm_send_acquire(struct xfrm_state *x, struct xfrm_tmpl *xt,
+2649                              struct xfrm_policy *xp)
+2650 {                       
+2651         struct net *net = xs_net(x);
+2652         struct sk_buff *skb;
+2653                 
+2654         skb = nlmsg_new(xfrm_acquire_msgsize(x, xp), GFP_ATOMIC);
+2655         if (skb == NULL)
+2656                 return -ENOMEM;
+2657 
+2658         if (build_acquire(skb, x, xt, xp) < 0)
+2659                 BUG();
+2660                         
+2661         return nlmsg_multicast(net->xfrm.nlsk, skb, 0, XFRMNLGRP_ACQUIRE, GFP_ATOMIC);
+2662 }                       
+```
+
+#### pernet `net->xfrm.nlsk`
+3000 static int __net_init xfrm_user_net_init(struct net *net)
+3001 {
+3002         struct sock *nlsk;
+3003         struct netlink_kernel_cfg cfg = {
+3004                 .groups = XFRMNLGRP_MAX,
+3005                 .input  = xfrm_netlink_rcv,
+3006         };
+3007 
+3008         nlsk = netlink_kernel_create(net, NETLINK_XFRM, &cfg);
+3009         if (nlsk == NULL)
+3010                 return -ENOMEM;
+3011         net->xfrm.nlsk_stash = nlsk; /* Don't set to NULL */
+3012         rcu_assign_pointer(net->xfrm.nlsk, nlsk);
+3013         return 0;
+3014 }
+3015 
+
+### note
+
+1. what is `net->xfrm.km_waitq` and where it is used.
+This is used to wait SA negotiation complete,
+which is not related with  km.
+
+```c
+2121         if (route == NULL && num_xfrms > 0) {    
+2122                 /* The only case when xfrm_bundle_lookup() returns a
+2123                  * bundle with null route, is when the template could
+2124                  * not be resolved. It means policies are there, but
+2125                  * bundle could not be created, since we don't yet
+2126                  * have the xfrm_state's. We need to wait for KM to
+2127                  * negotiate new SA's or bail out with error.*/
+2128                 if (net->xfrm.sysctl_larval_drop) {      
+2129                         /* EREMOTE tells the caller to generate  
+2130                          * a one-shot blackhole route. */
+2131                         dst_release(dst);                        
+2132                         xfrm_pols_put(pols, drop_pols);          
+2133                         XFRM_INC_STATS(net, LINUX_MIB_XFRMOUTNOSTATES);
+2134   
+2135                         return make_blackhole(net, family, dst_orig);
+2136                 }   
+2137                 if (fl->flowi_flags & FLOWI_FLAG_CAN_SLEEP) {
+2138                         DECLARE_WAITQUEUE(wait, current);        
+2139   
+2140                         add_wait_queue(&net->xfrm.km_waitq, &wait);
+2141                         set_current_state(TASK_INTERRUPTIBLE);   
+2142                         schedule();
+2143                         set_current_state(TASK_RUNNING);         
+2144                         remove_wait_queue(&net->xfrm.km_waitq, &wait);
+2145   
+2146                         if (!signal_pending(current)) {          
+2147                                 dst_release(dst);                        
+2148                                 goto restart;                            
+2149                         }          
+2150   
+2151                         err = -ERESTART;
+2152                 } else             
+2153                         err = -EAGAIN;
+2154   
+2155                 XFRM_INC_STATS(net, LINUX_MIB_XFRMOUTNOSTATES);
+2156                 goto error;        
+2157         }
+```
