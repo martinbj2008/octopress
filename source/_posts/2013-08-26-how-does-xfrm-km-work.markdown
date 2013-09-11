@@ -25,6 +25,8 @@ and it broadcast the netlink message with different xfrm groups.
 	6. report:
 	7. mirgrate:
 
+<!-- more -->
+
 #### `struct xfrm_mgr` and `xfrm_km_list`
 
 ```c
