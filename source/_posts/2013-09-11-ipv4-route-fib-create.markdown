@@ -21,14 +21,14 @@ ctags: [kernel, route, ipv4, fib]
    相关的3个hash链(`fib_info_hash`, `fib_info_laddrhash`, `fib_info_devhash`)上.
 4. 最后返回新建的节点。
 
+<!-- more -->
+
 #### NOTE:
  After this function `struct fib_info *fib_create_info(struct fib_config *cfg)`,
  `struct fib_info`  is only inserted into `fib_info` hash lists, not the fib table(tree).
 
 `struct fib_info *fib_create_info(struct fib_config *cfg)`只是把一个创建了一个
 `struct fib_info`节点，并没有真正链接到路由表（fib_tree）里。
-
-<!-- more -->
 
 ```c
  774 struct fib_info *fib_create_info(struct fib_config *cfg) 
