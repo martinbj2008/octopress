@@ -18,10 +18,11 @@ and put original node's child into the new node.
 that means, `tn`'s `bits` will be doulbe of original value.
 
 Just like the comment in the source, child nodes are divided into 3 kind nodes:
-case 1. child node is a leaf or an internal node with skipped bits
-case 2. an internal node with two children
-case 3. an internal node with more than two children
-  
+
+1. child node is a leaf or an internal node with skipped bits
+2. an internal node with two children
+3. an internal node with more than two children
+
 ```c
 if (a leaf node) then
     belong case1.
