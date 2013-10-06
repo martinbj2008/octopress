@@ -96,7 +96,7 @@ because the low bits always is zero(becauase of CACHE).
 Get value of key's bits from the `offset` bit.
 取 从第`offset`位开始的 `bits`位的值
 
-![tkey_extract_bits](/images/tkey_extract_bits.png)
+![tkey_extract_bits](/images/fib_trie/tkey_extract_bits.png)
 
 ```c 
  225 static inline t_key tkey_extract_bits(t_key a, int offset, int bits)
@@ -137,7 +137,7 @@ between `tkey a` and `tkey b`.
 after the operation `a ^ b`, the first bit with `1' will 
 be the first different bit.
 
-![tkey_mismatch](/images/tkey_mismatch.png)
+![tkey_mismatch](/images/fib_trie/tkey_mismatch.png)
 
 ```c 
  246 static inline int tkey_mismatch(t_key a, int offset, t_key b)
