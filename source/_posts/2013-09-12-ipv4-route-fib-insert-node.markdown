@@ -7,7 +7,17 @@ categories: [route]
 tags: [kernel, IPv4, fib]
 ---
 
-###summary
+##summary
+
+###case 1
+![case 1](/images/fib_trie/insert_node_case1.svg)
+###case 2
+![case 2](/images/fib_trie/insert_node_case2.svg)
+###case 3
+####case 3a
+![case 3a](/images/fib_trie/insert_node_case3a.svg)
+####case 3b
+![case 3b](/images/fib_trie/insert_node_case3b.svg)
 
 <!-- more -->
 
