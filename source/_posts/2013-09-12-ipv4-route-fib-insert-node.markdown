@@ -9,18 +9,37 @@ tags: [kernel, IPv4, fib]
 
 ##summary
 
+When insert a route to the `fib_trie`, it 
+can be divided into 3 cases.
+
 ###case 1
-![case 1](/images/fib_trie/insert_node_case1.svg)
+We are lucky enough, there are matched leaf.
+for example, insert a subnet route to a exist route.
+
+![case 1](/images/fib_trie/insert_node_case1.jpg)
+
 ###case 2
-![case 2](/images/fib_trie/insert_node_case2.svg)
+There is a empty child slot in the matched node,
+we just need insert a leaf to the `fib_trie`.
+
+![case 2](/images/fib_trie/insert_node_case2.jpg)
+
 ###case 3
+There is a umatched node, we need insert a internal node
+to the `fib_trie`, and insert a leaf as one of the internal
+node.
+
 ####case 3a
-![case 3a](/images/fib_trie/insert_node_case3a.svg)
+The unmatched node is a node(`sub-fib-trie`).
+
+![case 3a](/images/fib_trie/insert_node_case3a.jpg)
+
 ####case 3b
-![case 3b](/images/fib_trie/insert_node_case3b.svg)
+The unmatched node is a leaf.
+![case 3b](/images/fib_trie/insert_node_case3b.jpg)
 
 <!-- more -->
-
+### source `fib_insert_node`
 ```c
 1021 /* only used from updater-side */
 1022 
