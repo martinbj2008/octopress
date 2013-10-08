@@ -6,7 +6,31 @@ comments: true
 categories: [route]
 tags: [ipv4, route, kernel]
 ---
+### call trace
+以插入一条新的路由为例。
 
+```c
+> fib_insert_node
+> > trie_rebalance
+> > > while loop
+> > > > resize
+> > > > tnode_put_child_reorg
+> > > > tnode_free_flush
+```
+
+###`trie_rebalance`
+
+```
+for_each_node(from current node tn to  fib_trie root)
+	call resize()
+	tnode_put_child_reorg
+
+从当前节点开始一直到根节点，以当前节点作为一个子树，
+反复调用resize, 并通过tnode_put_child_reorg
+更新当前节点的父节点的统计信息。
+
+注： resize可能会更改子树的根节点！
+```
 
 ```c
  986 static void trie_rebalance(struct trie *t, struct tnode *tn)
@@ -43,6 +67,16 @@ tags: [ipv4, route, kernel]
 1017         tnode_free_flush();        
 1018 } 
 ```
+
+### rebalance的核心`resize`函数
+
+rebalancede核心是resize函数。在该函数里有两种操作`inflate`和`halve`，他们是两种相反的操作。
+
+1. `inflate`是将当前节点的孩子指针数组的元素个数增加一倍， 同时将尽量将各个子孩子的孩子，直接挂接到新的孩子指针数组上。
+	最终达到减少树的深度。所以要像执行`inflate`操作，孙子节点必须足够多。
+
+2.
+
 
 ```c
 523 #define MAX_WORK 10
@@ -211,4 +245,47 @@ tags: [ipv4, route, kernel]
  685         return (struct rt_trie_node *) tn;
  686 }
  687 
+```
+
+### `tnode_put_child_reorg`
+英文注释说的很清楚了，主要有两个工作：
+
+1. 更新父节点`tn` 的`full_children` 和 `empty_children`的统计值。
+2. 设置`tn`节点的第`i`个子孩子为`n`。
+
+```c
+ /*
+  * Add a child at position i overwriting the old value.
+  * Update the value of full_children and empty_children.
+  */
+
+static void tnode_put_child_reorg(struct tnode *tn, int i, struct rt_trie_node *n,
+                                  int wasfull)
+{
+        struct rt_trie_node *chi = rtnl_dereference(tn->child[i]);
+        int isfull;
+
+        BUG_ON(i >= 1<<tn->bits);
+
+        /* update emptyChildren */
+        if (n == NULL && chi != NULL)
+                tn->empty_children++;
+        else if (n != NULL && chi == NULL)
+                tn->empty_children--;
+
+        /* update fullChildren */
+        if (wasfull == -1)
+                wasfull = tnode_full(tn, chi);
+
+        isfull = tnode_full(tn, n);
+        if (wasfull && !isfull)
+                tn->full_children--;
+        else if (!wasfull && isfull)
+                tn->full_children++;
+
+        if (n)
+                node_set_parent(n, tn);
+
+        rcu_assign_pointer(tn->child[i], n);
+}
 ```
