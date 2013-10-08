@@ -70,13 +70,21 @@ for_each_node(from current node tn to  fib_trie root)
 
 ### rebalance的核心`resize`函数
 
+#### `inflate`和`halve`
 rebalancede核心是resize函数。在该函数里有两种操作`inflate`和`halve`，他们是两种相反的操作。
 
 1. `inflate`是将当前节点的孩子指针数组的元素个数增加一倍， 同时将尽量将各个子孩子的孩子，直接挂接到新的孩子指针数组上。
 	最终达到减少树的深度。所以要像执行`inflate`操作，孙子节点必须足够多。
 
-2.
+2. `halve`将当前节点的孩子指针数组的元素个数减半。
+	如果第2i和2i+1个孩子都为空，则压缩后的第i个孩子也为空，
+	如果第2i和2i+1个孩子只有一个为空，则将不非空的孩子作为压缩后的第i个孩子。
+	如果第2i和2i+1个孩子都不为空，则插入一个新的中间节点。并将第2i和2i+1个孩子分别作为新的中间节点的左右(第0和第1个)孩子。
+![case 1](/images/fib_trie//halve.jpg)
 
+#### `inflate`和`halve`的执行条件
+
+英文注释说的很清楚了，todo翻译。
 
 ```c
 523 #define MAX_WORK 10
