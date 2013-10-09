@@ -94,7 +94,7 @@ because the low bits always is zero(becauase of CACHE).
 ### `tkey_extract_bits`
 
 Get value of key's bits from the `offset` bit.
-取 从第`offset`位开始的 `bits`位的值
+取 从第offset位开始的 bits位的值
 
 ![tkey_extract_bits](/images/fib_trie/tkey_extract_bits.png)
 
@@ -151,4 +151,14 @@ be the first different bit.
  254                 i++;
  255         return i;
  256 }
+```
+
+### `mask_pfx`
+保留`key`的前`l`位，并将`l`位之后的所有位清零。`l`相当于掩码长度。
+
+```c
+ 238 static inline t_key mask_pfx(t_key k, unsigned int l)
+ 239 { 
+ 240         return (l == 0) ? 0 : k >> (KEYLENGTH-l) << (KEYLENGTH-l); 
+ 241 } 
 ```
