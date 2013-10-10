@@ -224,10 +224,7 @@ rebalancede核心是resize函数。在该函数里有两种操作`inflate`和`ha
 		调整位置:
 		50 * (tn->full_children + tnode_child_length(tn) - tn->empty_children)
 			>= inflate_threshold * tnode_child_length(tn);
-
  608          */
-
-
  609 
  610         check_tnode(tn);
  611 
