@@ -6,6 +6,7 @@ comments: true
 categories: [route]
 tags: [ipv4, route, kernel]
 ---
+
 ### call trace
 以插入一条新的路由为例。
 
@@ -31,6 +32,8 @@ for_each_node(from current node tn to  fib_trie root)
 
 注： resize可能会更改子树的根节点！
 ```
+
+<!-- more -->
 
 ```c
  986 static void trie_rebalance(struct trie *t, struct tnode *tn)
@@ -83,9 +86,10 @@ rebalancede核心是resize函数。在该函数里有两种操作`inflate`和`ha
 ![case 1](/images/fib_trie//halve.jpg)
 
 #### `inflate`和`halve`的执行条件
+英文注释说的很清楚了。见下文的翻译。
 
-英文注释说的很清楚了，todo翻译。
 
+#### `resize`
 ```c
 523 #define MAX_WORK 10
  524 static struct rt_trie_node *resize(struct trie *t, struct tnode *tn)
@@ -121,6 +125,10 @@ rebalancede核心是resize函数。在该函数里有两种操作`inflate`和`ha
  554          * Telecommunications, page 6:
  555          * "A node is doubled if the ratio of non-empty children to all
  556          * children in the *doubled* node is at least 'high'."
+
+		根据 "Implementing a dynamic compressed trie"的第6页
+		"如果想要一个节点的， 其非空子孩子在所有孩子中的比例必须不少于 ‘high'"
+
  557          *
  558          * 'high' in this instance is the variable 'inflate_threshold'. It
  559          * is expressed as a percentage, so we multiply it with
@@ -129,6 +137,15 @@ rebalancede核心是resize函数。在该函数里有两种操作`inflate`和`ha
  562          * the left-hand side by 100 (to handle the percentage thing) we
  563          * multiply the left-hand side by 50.
  564          *
+		'high'在这里有变量'inflate_threshold'表示。它有一个百分比的形式。
+		100 *  tn_noempty_children/(tnode_child_length() *2) = 'inflate_threshold'  
+		避免除法:
+		100 * tn_noempty_children = 'inflate_threshold' * (tnode_child_length() *2)
+		100和2 抵消： 
+		50 * tn_noempty_children = 'inflate_threshold' * tnode_child_length()
+		展开tn_noempty_children
+		50 * (tnode_child_length(tn) - tn->empty_children) = 'inflate_threshold' * tnode_child_length() 
+
  565          * The left-hand side may look a bit weird: tnode_child_length(tn)
  566          * - tn->empty_children is of course the number of non-null children
  567          * in the current node. tn->full_children is the number of "full"
@@ -136,6 +153,12 @@ rebalancede核心是resize函数。在该函数里有两种操作`inflate`和`ha
  569          * All of those will be doubled in the resulting inflated tnode, so
  570          * we just count them one extra time here.
  571          *
+		左边看起来有些怪异， 
+		tnode_child_length(tn) - tn->empty_children 指的是当前节点的非空孩子节点个数。
+		tn->full_children 是 'full'孩子节点的个数。即那些非空节点并且节点的
+		skip值为0（即 节点的pos == 父节点的pos+父节点的bits）
+		在最终膨胀的节点里，这些节点将会膨胀原来的两倍。
+
  572          * A clearer way to write this would be:
  573          *
  574          * to_be_doubled = tn->full_children;
@@ -144,35 +167,67 @@ rebalancede核心是resize函数。在该函数里有两种操作`inflate`和`ha
  577          *
  578          * new_child_length = tnode_child_length(tn) * 2;
  579          *
+		要膨胀加倍的节点 = tn->full_children;
+		不需要膨胀的非空节点 = tnode_child_length(tn) - tn->empty_children - tn->full_children;
+		新的孩子节点总数 =  tnode_child_length(tn) * 2;
+
  580          * new_fill_factor = 100 * (not_to_be_doubled + 2*to_be_doubled) /
  581          *      new_child_length;
  582          * if (new_fill_factor >= inflate_threshold)
  583          *
  584          * ...and so on, tho it would mess up the while () loop.
  585          *
+		new_fill_factor = 100 * （不需要膨胀的非空节点 + 2 * 要膨胀加倍的节点) / 新的孩子节点总数
+		if (new_fill_factor > inflate_threshold)
+			就变得麻烦了， 我们需要一个while loop来处理。
+
  586          * anyway,
  587          * 100 * (not_to_be_doubled + 2*to_be_doubled) / new_child_length >=
  588          *      inflate_threshold
  589          *
+		总之，
+		100 * （不需要膨胀的非空节点 + 2 * 要膨胀加倍的节点) / 新的孩子节点总数 >= inflate_threshold
+ 
  590          * avoid a division:
  591          * 100 * (not_to_be_doubled + 2*to_be_doubled) >=
  592          *      inflate_threshold * new_child_length
  593          *
+
+		避免除法
+		100 * （不需要膨胀的非空节点 + 2 * 要膨胀加倍的节点) >= inflate_threshold * 新的孩子节点总数
+
  594          * expand not_to_be_doubled and to_be_doubled, and shorten:
  595          * 100 * (tnode_child_length(tn) - tn->empty_children +
  596          *    tn->full_children) >= inflate_threshold * new_child_length
  597          *
+		展开 不需要膨胀的非空节点 与 要膨胀加倍的节点
+		100 *（tnode_child_length(tn) - tn->empty_children - tn->full_children + 2 * tn->full_children)
+			>= inflate_threshold * 新的孩子节点总数
+		===>
+		100 * (tnode_child_length(tn) - tn->empty_children + tn->full_children) >= inflate_threshold * 新的孩子节点总数
+
  598          * expand new_child_length:
  599          * 100 * (tnode_child_length(tn) - tn->empty_children +
  600          *    tn->full_children) >=
  601          *      inflate_threshold * tnode_child_length(tn) * 2
  602          *
+		展开 新的孩子节点总数
+		100 * (tnode_child_length(tn) - tn->empty_children + tn->full_children) >= inflate_threshold * tnode_child_length(tn) * 2;
+
  603          * shorten again:
  604          * 50 * (tn->full_children + tnode_child_length(tn) -
  605          *    tn->empty_children) >= inflate_threshold *
  606          *    tnode_child_length(tn)
  607          *
+		再化简(2 被100 抵消):
+                50 * (tnode_child_length(tn) - tn->empty_children + tn->full_children) >= inflate_threshold * tnode_child_length(tn);
+		调整位置:
+		50 * (tn->full_children + tnode_child_length(tn) - tn->empty_children)
+			>= inflate_threshold * tnode_child_length(tn);
+
  608          */
+
+
  609 
  610         check_tnode(tn);
  611 
