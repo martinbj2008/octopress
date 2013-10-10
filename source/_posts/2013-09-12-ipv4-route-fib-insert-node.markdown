@@ -7,7 +7,42 @@ categories: [route]
 tags: [kernel, IPv4, fib]
 ---
 
-##summary
+##steps
+
+step 1. 循环`fib_trie`, 直到当前节点为空或者是叶子节点时，停止。
+	1.a
+	比较当前节点的`key`跟待插入的`key`的前pos位,
+	如果不相等，循环结束。如果相等执行1.b
+       （作为改进，加上父节点已经比较了前posx位， 那么只需比较
+	(posx，pos)这区间的位即可。 注意posx有可能与pos相等。
+	1.b
+	记录已经比较的位数(tn->pos + tn->bits)
+	取当前节点的一个孩子节点，
+	`tkey_extract_bits(key, tn->pos, tn->bits)`
+	继续执行。
+
+step 2. 循环结束，当前节点`n`有可能为空，也有可能是个叶子节点,或者中间节点(1.a).
+```c
+	if (n == NULL)
+		if (fib_trie == NULL)
+			shit! 树的第一个节点。
+		else
+			当前节点是父节点的一个空孩子节点。
+			以为树不是空的，所以父节点肯定存在。
+			见 case2
+	else n is a leaf 
+		if (tkey_equals(key, n->key)) //'key'值相同
+			case 1:
+			路由前缀相同（可能掩码不一样)
+		else
+			case 3b.
+	else
+		//assert n is a internal node
+		并且，当前节点的key的pos位跟待插入的key的前pos位不相等。
+		见case3a
+
+```
+<!-- more -->
 
 When insert a route to the `fib_trie`, it 
 can be divided into 3 cases.
@@ -38,7 +73,6 @@ The unmatched node is a node(`sub-fib-trie`).
 The unmatched node is a leaf.
 ![case 3b](/images/fib_trie/insert_node_case3b.jpg)
 
-<!-- more -->
 ### source `fib_insert_node`
 ```c
 1021 /* only used from updater-side */
@@ -190,11 +224,3 @@ The unmatched node is a leaf.
 1167 }
 1168 
 ```
-
-
-注释：
-
-1. 如果n为TNODE，那么必定key跟node的key的前pos不想等，否则，在搜索的过程中，应该继续搜寻n的孩子。
-   如果n为LEAF， 那么n的父节点在搜索过程中被匹配了。所以pos+bits必定是相同的。
-  所以我们可以断定此处`newpos < pos `, right? todo
-
