@@ -17,6 +17,7 @@ tags: [ipv4, fib, route]
  > > > > > fib_table_lookup with RT_TABLE_MAIN
  > > > > ip_mkroute_input
 ```
+<!-- more -->
 ####
 ```c
 1397 int fib_table_lookup(struct fib_table *tb, const struct flowi4 *flp,
