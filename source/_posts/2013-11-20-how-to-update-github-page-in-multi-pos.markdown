@@ -31,4 +31,26 @@ How to keep the sync and avoid conflict.
 5. `rake generate` and `rake _deploy`
 
 
+rake problem:
+1. sudo bundle update rake
 
+2. vim Gemfile
+```
+martin@ubuntu:~/git/octopress$ rake --version
+rake, version 10.1.0
+martin@ubuntu:~/git/octopress$ git diff Gemfile
+diff --git a/Gemfile b/Gemfile
+index cd8ce57..e7cd276 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -1,7 +1,7 @@
+ source "https://rubygems.org"
+ 
+ group :development do
+-  gem 'rake', '~> 0.9'
++  gem 'rake', '~> 10.1'
+   gem 'jekyll', '~> 0.12'
+   gem 'rdiscount', '~> 2.0.7'
+   gem 'pygments.rb', '~> 0.3.4'
+martin@ubuntu:~/git/octopress$ 
+```
