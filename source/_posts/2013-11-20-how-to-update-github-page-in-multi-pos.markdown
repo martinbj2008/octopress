@@ -11,7 +11,6 @@ tags: [git, octopress]
 I want to write/update github page by octopress in the office
 or in the home.
 
-
 ### Steps
 The github page has work well done with pc in the home.
 Now setup the environment in office to write github page.
@@ -22,7 +21,7 @@ the git repo for source is at:
     https://github.com/martinbj2008/octopress
 
 How to sync and avoid conflict with home?
-
+<!-- more -->
 1. clone my own octopress, which includes markdown files and config files.
     ```
     git clone https://github.com/martinbj2008/octopress.git
@@ -40,7 +39,7 @@ How to sync and avoid conflict with home?
         rake _deploy
     ```
 
-### meeted Problem
+### Solved Problem
 
 1. rake could not work.
     ```
