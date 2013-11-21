@@ -11,6 +11,8 @@ ctags: [kernel, ipv4, route, trie]
 `inflate` duplicate a new node whose child array is double of orignal node,
 and put original node's child into the new node.
 
+<!-- more -->
+
 ```c
 tn's bits = 2 * oldnode->bits
 
