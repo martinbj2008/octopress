@@ -7,34 +7,47 @@ categories: [git]
 tags: [git, octopress]
 ---
 
-## requirement
+### Requirement
 I want to write/update github page by octopress in the office
 or in the home.
 
-How to keep the sync and avoid conflict.
 
-1. setup a right github page work well by one place.
-2. create a own octopress.git and push to it.
-   ex:
-   ```
-   git@github.com:martinbj2008/octopress.git
-   ```
-3.  git  clone the own octopress.
-   ```
-   sudo gem install bundler
-   rbenv  rehash
-   sudo bundle install
-   ```
-4. rm the `_deploy` and `git clone git@github.com:martinbj2008/martinbj2008.github.io.git _deploy`
+### Steps
+The github page has work well done with pc in the home.
+Now setup the environment in office to write github page.
+The github page is at:
+    https://github.com/martinbj2008/martinbj2008.github.io
 
+the git repo for source is at:
+    https://github.com/martinbj2008/octopress
 
-5. `rake generate` and `rake _deploy`
+How to sync and avoid conflict with home?
 
+1. clone my own octopress, which includes markdown files and config files.
+    ```
+    git clone https://github.com/martinbj2008/octopress.git
+    ```
 
-rake problem:
-1. sudo bundle update rake
+2. clone github pages repo to avoid `rake deloy` failure.
+    ```
+    git clone git@github.com:martinbj2008/martinbj2008.github.io.git _deploy
+    ```
 
-2. vim Gemfile
+3. enjoy it.
+    ```
+        rake generate
+        rake preview
+        rake _deploy
+    ```
+
+### meeted Problem
+
+1. rake could not work.
+    ```
+    sudo bundle update rake
+    ```
+2. rake version does not match, need edit `Gemfile`
+This work has been done in the home.
 ```
 martin@ubuntu:~/git/octopress$ rake --version
 rake, version 10.1.0
