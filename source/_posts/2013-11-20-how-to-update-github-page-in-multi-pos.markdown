@@ -21,7 +21,9 @@ the git repo for source is at:
     https://github.com/martinbj2008/octopress
 
 How to sync and avoid conflict with home?
+
 <!-- more -->
+
 1. clone my own octopress, which includes markdown files and config files.
     ```
     git clone https://github.com/martinbj2008/octopress.git
@@ -33,19 +35,18 @@ How to sync and avoid conflict with home?
     ```
 
 3. enjoy it.
-    ```
-        rake generate
-        rake preview
-        rake _deploy
-    ```
+
+`rake generate`  `rake preview` `rake _deploy`
 
 ### Solved Problem
 
 1. rake could not work.
-    ```
+```
     sudo bundle update rake
-    ```
-2. rake version does not match, need edit `Gemfile`
+```
+
+2. rake version does not match, need edit `Gemfile`.
+
 This work has been done in the home.
 ```
 martin@ubuntu:~/git/octopress$ rake --version
