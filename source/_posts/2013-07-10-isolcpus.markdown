@@ -86,7 +86,7 @@ In kernel source, kthread(pid2) is identitied by ‘kthread_task’, which is ru
 mainly of function ‘kthread’ is a infinite loop, check if there is a new kernel thread need to be created, if yes, create them.
 
 before start the infinite loop, kernel chagne the cpumask/affinity of pid2, see line 453 file kernel/kthread.c.
-```
+```c
 364 static noinline void __init_refok rest_init(void)
 365 {
 366         int pid;
@@ -108,7 +108,7 @@ before start the infinite loop, kernel chagne the cpumask/affinity of pid2, see 
 
 In function ‘kthreadd’, file kernel/kthread.c
 
-```
+```c
 446 int kthreadd(void *unused)
 447 {
 448         struct task_struct *tsk = current;
@@ -127,12 +127,12 @@ In function ‘kthreadd’, file kernel/kthread.c
 why kernel thread created by ‘kthread_create’ still has wrong affinity, even kthread(pid2) has been set with right affinity.
 kthead_create is just a marco to wrapper kthread_create_on_node. In kthread_create_on_node, new kernel thread affinity/cpumask will be set as cpu_all_mask(all cpus), just after it is created. See line 285
 
-```
+```c
  13 #define kthread_create(threadfn, data, namefmt, arg...) \
  14         kthread_create_on_node(threadfn, data, -1, namefmt, ##arg)
 ```
 
-```
+```c
 253 struct task_struct *kthread_create_on_node(int (*threadfn)(void *data),
 254                                            void *data, int node,
 255                                            const char namefmt[],

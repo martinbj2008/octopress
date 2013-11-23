@@ -12,7 +12,7 @@ Each `family` has a corresponding array element of `struct net_proto_family`,
 which will be called in system call `socket`.
 
 ### Data Structure
-```
+```c
 181 struct net_proto_family {
 182         int             family;
 183         int             (*create)(struct net *net, struct socket *sock,
@@ -23,7 +23,7 @@ which will be called in system call `socket`.
 The `create` is *important*, which is first and basic function during
 system call `socket`.
 
-```
+```c
  164 static DEFINE_SPINLOCK(net_family_lock);
  165 static const struct net_proto_family __rcu *net_families[NPROTO] __read_mostly;
 ```
@@ -37,7 +37,7 @@ system call `socket`.
 
 #### Register/Unregister a net famliy's `ops`
 ##### sock_register
-```
+```c
 2567 /**
 2568  *      sock_register - add a socket protocol handler
 2569  *      @ops: description of protocol
@@ -74,7 +74,7 @@ system call `socket`.
 ```
 
 #### sock_unregister
-```
+```c
 2601 /**
 2602  *      sock_unregister - remove a protocol handler
 2603  *      @family: protocol family to remove
@@ -104,7 +104,7 @@ system call `socket`.
 ```
 
 ### who are registered to `net_families`
-```
+```c
 net/phonet/af_phonet.c:	err = sock_register(&phonet_proto_family);
 net/rds/af_rds.c:	ret = sock_register(&rds_family_ops);
 net/netrom/af_netrom.c:	if (sock_register(&nr_family_ops)) {
@@ -141,7 +141,7 @@ net/llc/af_llc.c:	rc = sock_register(&llc_ui_family_ops);
 For example:
     `AF_INET` and `inet_family_ops`.
 
-```
+```c
 1019 static const struct net_proto_family inet_family_ops = {
 1020         .family = PF_INET,
 1021         .create = inet_create,
@@ -151,7 +151,7 @@ For example:
 
 register when inet init.
 
-```
+```c
 1670 static int __init inet_init(void)
 1671 {
 ...
@@ -160,7 +160,7 @@ register when inet init.
 
 ### `net_families` is used in system call `socket`
 
-```
+```c
 1243 int __sock_create(struct net *net, int family, int type, int protocol,
 1244                          struct socket **res, int kern)
 1245 {

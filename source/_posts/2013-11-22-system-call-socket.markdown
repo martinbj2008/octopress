@@ -16,7 +16,7 @@ then init it with the `creating` method of `net_families[family]`.
    TODO.....
 
 ### call trace:
-```
+```c
 > socket
 > > sock_create
 > > > __sock_create
@@ -30,11 +30,12 @@ then init it with the `creating` method of `net_families[family]`.
 > > > > module_put(pf->owner)
 > > socket_map_fd
 ```
+<!-- more -->
 
 For `AF_INET` socket `pf->create` is `inet_create`,
 which will be duscussed here.
 
-```
+```c
 1368 SYSCALL_DEFINE3(socket, int, family, int, type, int, protocol)
 1369 {
 1370         int retval;
@@ -73,7 +74,7 @@ which will be duscussed here.
 1403 }
 ```
 ### `socket_create` and `__sock_create`
-```
+```c
 1356 int sock_create(int family, int type, int protocol, struct socket **res)
 1357 {
 1358         return __sock_create(current->nsproxy->net_ns, family, type, protocol, res, 0);
@@ -81,7 +82,7 @@ which will be duscussed here.
 1360 EXPORT_SYMBOL(sock_create);
 ```
 
-```
+```c
 1243 int __sock_create(struct net *net, int family, int type, int protocol,
 1244                          struct socket **res, int kern)
 1245 {
@@ -198,7 +199,7 @@ which will be duscussed here.
 
 What is `pf->create`? for `PF_INET` family please see here.
 ####
-```
+```c
  528 /**
  529  *      sock_alloc      -       allocate a socket
  530  *

@@ -7,18 +7,19 @@ categories:
 ---
 
 ### Data struct.
-```
+``` c
  123 /* The inetsw table contains everything that inet_create needs to
  124  * build a new socket.
  125  */
  126 static struct list_head inetsw[SOCK_MAX];
  127 static DEFINE_SPINLOCK(inetsw_lock);
 ```
+<!-- more -->
 
 Just like the `net_families`, spinlock is used for mutex of multi-writer
 and rcu lock is used for reader/writer.
 
-```
+``` c
  73 /* This is used to register socket interfaces for IP protocols.  */
  74 struct inet_protosw {
  75         struct list_head list;
@@ -38,8 +39,8 @@ and rcu lock is used for reader/writer.
  89 #define INET_PROTOSW_ICSK      0x04  /* Is this an inet_connection_sock? */
 ```
 
-###
-```
+### `inet_register_protosw` and `inet_unregister_protosw`
+``` c
 1068 #define INETSW_ARRAY_LEN ARRAY_SIZE(inetsw_array)
 1069 
 1070 void inet_register_protosw(struct inet_protosw *p)
@@ -112,14 +113,8 @@ and rcu lock is used for reader/writer.
 ```
 
 ### Register 4 kinds of inet socket.
-There are 4 kinds of inet socket.
-
-1. tcp
-2. udp
-3. icmp
-4. raw
-
-```
+There are 4 kinds of inet socket: `tcp`, `udp`, `icmp`, `raw`.
+``` c
 1025 /* Upon startup we insert all the elements in inetsw_array[] into
 1026  * the linked list inetsw.
 1027  */
@@ -163,8 +158,8 @@ There are 4 kinds of inet socket.
 1065        }
 1066 };
 ```
-
-```
+### where is it used
+``` c
 1670 static int __init inet_init(void)
 1671 {
 ...
@@ -176,9 +171,9 @@ There are 4 kinds of inet socket.
 1730                 inet_register_protosw(q);
 ...
 ```
-
+## `struct proto`  vs `struct proto_ops` 
 ### `struct proto` and `tcp_prot`
-```
+``` c
  889 /* Networking protocol blocks we attach to sockets.
  890  * socket layer -> transport layer interface
  891  * transport -> network interface is defined by struct inet_proto
@@ -301,7 +296,7 @@ There are 4 kinds of inet socket.
 1008 };
 ```
 
-```
+```c
 2781 struct proto tcp_prot = {
 2782         .name                   = "TCP",
 2783         .owner                  = THIS_MODULE,
@@ -353,7 +348,7 @@ There are 4 kinds of inet socket.
 ```
 
 ### `struct proto_ops` and `inet_stream_ops`
-```
+```c
 127 struct proto_ops {
 128         int             family;
 129         struct module   *owner;
@@ -406,7 +401,7 @@ There are 4 kinds of inet socket.
 176 };
 ```
 
-```
+```c
  934 const struct proto_ops inet_stream_ops = {
  935         .family            = PF_INET,
  936         .owner             = THIS_MODULE,
@@ -435,4 +430,3 @@ There are 4 kinds of inet socket.
  959 };
  960 EXPORT_SYMBOL(inet_stream_ops);
 ```
-

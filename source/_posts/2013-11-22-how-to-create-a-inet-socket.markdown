@@ -8,7 +8,7 @@ tags: [inet socket, socket]
 ---
 
 ###  Data Structure
-```
+``` c
 1019 static const struct net_proto_family inet_family_ops = {
 1020         .family = PF_INET,
 1021         .create = inet_create,
@@ -17,7 +17,7 @@ tags: [inet socket, socket]
 ```
 
 ### call trace
-```
+```c
 > inet_create
 > > search the right inetsw array element with type/protocol
 > > sock->ops = answer->ops;
@@ -25,15 +25,16 @@ tags: [inet socket, socket]
 > > sock_init_data(sock, sk);
 > > init the sk
 ```
+<!-- more -->
 
 ### Initialization of `inet_family_ops`
-```
+```c
 > static int __init inet_init(void)
 > > (void)sock_register(&inet_family_ops);
 ```
 
 ### `inet_create`
-```
+```c
  271 /*
  272  *      Create an inet socket.
  273  */
@@ -183,7 +184,7 @@ tags: [inet socket, socket]
 ```
 
 #### `sk_alloc`
-```
+```c
 1329 /**
 1330  *      sk_alloc - All socket objects are allocated here
 1331  *      @net: the applicable net namespace
@@ -217,7 +218,7 @@ tags: [inet socket, socket]
 1359 EXPORT_SYMBOL(sk_alloc);
 ```
 
-```
+```c
 1246 
 1247 static struct sock *sk_prot_alloc(struct proto *prot, gfp_t priority,
 1248                 int family)
@@ -265,7 +266,7 @@ tags: [inet socket, socket]
 ```
 
 for ipv4/tcp socket, here `prot` is `tcp_prot`;
-```
+```c
 117 /** struct inet_sock - representation of INET sockets
 118  *
 119  * @sk - ancestor class

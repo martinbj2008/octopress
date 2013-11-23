@@ -109,12 +109,12 @@ round-trip min/avg/max = 0.068/0.075/0.088 ms
 ###related source:
 
 in net/ipv4/devinet.c, register_inetaddr_notifier
-```
+```c
 178 static BLOCKING_NOTIFIER_HEAD(inetaddr_chain);
 1091 int register_inetaddr_notifier(struct notifier_block *nb)
 net/ipv4/fib_frontend.c
 ```
-```
+```c
 1190         register_inetaddr_notifier(&fib_inetaddr_notifier);
 1089 static struct notifier_block fib_inetaddr_notifier = {
 1090         .notifier_call = fib_inetaddr_event,
@@ -127,6 +127,6 @@ net/ipv4/fib_frontend.c
 3. add two broadcast for network_address.255|0
 
 net/ipv4/fib_frontend.c
-```
+```c
 698 static void fib_magic(int cmd, int type, __be32 dst, int dst_len, struct in_ifaddr *ifa)
 ```
